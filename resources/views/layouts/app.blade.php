@@ -157,10 +157,10 @@
 <body>
     <!-- Barra lateral -->
     <div class="sidebar">
-        <div class="logo">Hospital Laravel</div>
+        <div class="logo">Hospital</div>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="#">
+                <a class="nav-link active" href="{{ route('admin.dashboard')}}">
                     <i class="bi bi-speedometer2 me-2"></i>Dashboard
                 </a>
             </li>
@@ -170,7 +170,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('cita.index')}}">
                     <i class="bi bi-calendar-check me-2"></i>Citas
                 </a>
             </li>

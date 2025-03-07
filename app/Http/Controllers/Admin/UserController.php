@@ -10,11 +10,26 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // Listar todos los usuarios
-    public function index()
+    // Listar todos los usuarios con opción de búsqueda
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('admin.users.index', compact('users'));
+        // Obtener el término de búsqueda
+        $search = $request->input('search');
+
+        // Consulta base
+        $query = User::query();
+
+        // Aplicar filtro de búsqueda si hay un término
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                  ->orWhere('email', 'like', '%' . $search . '%');
+        }
+
+        // Paginar los resultados
+        $users = $query->paginate(6);
+
+        // Pasar el término de búsqueda a la vista
+        return view('admin.users.index', compact('users', 'search'));
     }
 
     // Mostrar el formulario para crear un usuario
@@ -27,13 +42,17 @@ class UserController extends Controller
     // Guardar un nuevo usuario
     public function store(Request $request)
     {
+        // Validar los datos del formulario
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|regex:/^[A-Za-z\s]+$/|max:255', // Solo letras y espacios
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|exists:roles,id',
+        ], [
+            'name.regex' => 'El nombre solo debe contener letras y espacios.',
         ]);
 
+        // Crear el usuario
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -89,4 +108,28 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado correctamente.');
     }
+    public function search(Request $request)
+{
+    
+    $search = $request->input('search');
+
+    $query = User::query();
+
+    // Aplicar filtro de búsqueda si hay un término
+    if ($search) {
+        $query->where('name', 'like', '%' . $search . '%')
+              ->orWhere('email', 'like', '%' . $search . '%');
+    }
+
+    $users = $query->paginate(6);
+
+    $usersTable = view('admin.users.partials.users_table', compact('users'))->render();
+    $pagination = $users->links('pagination::bootstrap-4')->toHtml();
+
+    // Devolver una respuesta JSON
+    return response()->json([
+        'users' => $usersTable,
+        'pagination' => $pagination,
+    ]);
+}
 }

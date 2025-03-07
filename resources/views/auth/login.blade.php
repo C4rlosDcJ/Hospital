@@ -55,19 +55,6 @@
         .auth-card .btn-primary:hover {
             background: #2980b9;
         }
-        .auth-card .btn-outline-primary {
-            border-color: #3498db;
-            color: #3498db;
-            border-radius: 8px;
-            padding: 0.75rem;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .auth-card .btn-outline-primary:hover {
-            background: #3498db;
-            color: #fff;
-        }
         .auth-card .icon-input {
             position: relative;
         }
@@ -97,21 +84,28 @@
 <body>
     <div class="auth-card">
         <h2><i class="bi bi-heart-pulse me-2"></i>Iniciar Sesión</h2>
+        <!-- Mostrar mensaje de error si hay demasiados intentos fallidos -->
+        @if ($errors->has('email'))
+        <div class="alert alert-danger">
+            {{ $errors->first('email') }}
+        </div>
+    @endif
         <form action="{{ route('login.store') }}" method="POST">
             @csrf
             <div class="mb-3 icon-input">
                 <i class="bi bi-envelope"></i>
                 <input type="email" class="form-control" placeholder="Email" id="email" name="email" required>
+                @error('email')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3 icon-input">
                 <i class="bi bi-lock"></i>
                 <input type="password" class="form-control" placeholder="Contraseña" id="password" name="password" required>
+                @error('password')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
-            @error('message')
-                <div class="alert alert-danger" role="alert">
-                    <i class="bi bi-exclamation-circle me-2"></i>Error en algún campo
-                </div>
-            @enderror
             <button type="submit" class="btn btn-primary w-100">
                 <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
             </button>
@@ -123,5 +117,31 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Validación en tiempo real -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const emailInput = document.getElementById('email');
+            const emailError = document.createElement('div');
+            emailError.className = 'text-danger mt-1';
+            emailInput.parentElement.appendChild(emailError);
+
+            emailInput.addEventListener('input', function () {
+                const email = emailInput.value;
+                if (!email.endsWith('.com')) {
+                    emailError.textContent = 'El correo debe terminar con .com.';
+                } else {
+                    emailError.textContent = '';
+                }
+            });
+
+            document.querySelector('form').addEventListener('submit', function (e) {
+                const email = emailInput.value;
+                if (!email.endsWith('.com')) {
+                    e.preventDefault();
+                    emailError.textContent = 'El correo debe terminar con .com.';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

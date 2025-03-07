@@ -40,4 +40,18 @@
         </div>
     </div>
 </div>
+
+<!-- Script para validar el nombre -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const nameInput = document.getElementById('name');
+
+        nameInput.addEventListener('input', function () {
+            const regex = /^[A-Za-z\s]*$/;
+            if (!regex.test(this.value)) {
+                this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+            }
+        });
+    });
+</script>
 @endsection

@@ -7,19 +7,36 @@ use Illuminate\Http\Request;
 
 class CitaController extends Controller
 {
-    public function index(Request $request){
+    // Método para mostrar la lista de citas
+    public function index(Request $request)
+    {
         $buscarpor = $request->get('buscarpor');
 
-        $lista = Citas::orderBy('id_cita', 'desc')->where('codigo','like','%'.$buscarpor.'%')->paginate(5);
+        // Consulta base
+        $query = Citas::orderBy('id_cita', 'desc');
 
-        return view('citas.index',compact('lista','buscarpor'));
+        // Aplicar filtro de búsqueda si hay un término
+        if ($buscarpor) {
+            $query->where('codigo', 'like', '%' . $buscarpor . '%')
+                  ->orWhere('descripcion', 'like', '%' . $buscarpor . '%')
+                  ->orWhere('estatus', 'like', '%' . $buscarpor . '%');
+        }
+
+        // Paginar los resultados
+        $lista = $query->paginate(5);
+
+        return view('citas.index', compact('lista', 'buscarpor'));
     }
-    
-    public function create(){
+
+    // Método para mostrar el formulario de creación de citas
+    public function create()
+    {
         return view('citas.create');
     }
 
-    public function store(Request $request){
+    // Método para guardar una nueva cita
+    public function store(Request $request)
+    {
         $recuperar = new Citas();
 
         $recuperar->fecha = $request->fecha;
@@ -30,41 +47,67 @@ class CitaController extends Controller
         $recuperar->save();
 
         return redirect()->route('citas.show', $recuperar);
- 
     }
 
-    public function show($id_cita){
+    // Método para mostrar los detalles de una cita
+    public function show($id_cita)
+    {
         $mostrar = Citas::find($id_cita);
         return view('citas.show', compact('mostrar'));
     }
 
-    public function edit(Citas $editar, Request $request){
+    // Método para mostrar el formulario de edición de una cita
+    public function edit(Citas $editar)
+    {
         return view('citas.edit', compact('editar'));
     }
 
-    public function update(Request $request, Citas $editar){
+    // Método para actualizar una cita
+    public function update(Request $request, Citas $editar)
+    {
         $editar->fecha = $request->fecha;
         $editar->estatus = $request->estatus;
         $editar->descripcion = $request->descripcion;
         $editar->codigo = $request->codigo;
 
         $editar->save();
-        return redirect()->route('cita.index', $editar);
+        return redirect()->route('citas.index', $editar);
     }
-    
-    public function destroy(Citas $eliminar){
+
+    // Método para eliminar una cita
+    public function destroy(Citas $eliminar)
+    {
         $eliminar->delete();
-
-        return redirect()->route('cita.index');
+        return redirect()->route('citas.index');
     }
 
-    public function vista(Request $request){
-        $buscarpor = $request->get('buscarpor');
+    // Método para la búsqueda en tiempo real (AJAX)
+    public function search(Request $request)
+    {
+        // Obtener el término de búsqueda
+        $search = $request->input('search');
 
-        $lista = Citas::orderBy('id_cita', 'desc')->where('codigo','like','%'.$buscarpor.'%')->paginate(5);
+        // Consulta base
+        $query = Citas::orderBy('id_cita', 'desc');
 
-        return view('paciente.index',compact('lista','buscarpor'));
+        // Aplicar filtro de búsqueda si hay un término
+        if ($search) {
+            $query->where('codigo', 'like', '%' . $search . '%')
+                  ->orWhere('descripcion', 'like', '%' . $search . '%')
+                  ->orWhere('estatus', 'like', '%' . $search . '%');
+        }
+
+        // Paginar los resultados
+        $citas = $query->paginate(5);
+
+        // Renderizar la vista de la tabla y la paginación
+        $citasTable = view('citas.partials.citas_table', compact('citas'))->render();
+        $pagination = $citas->links('pagination::bootstrap-4')->toHtml();
+
+        // Devolver una respuesta JSON
+        return response()->json([
+            'citas' => $citasTable,
+            'pagination' => $pagination,
+        ]);
     }
-
-    
 }

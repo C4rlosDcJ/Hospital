@@ -89,14 +89,23 @@
             <div class="mb-3 icon-input">
                 <i class="bi bi-person"></i>
                 <input type="text" class="form-control" placeholder="Nombre Completo" id="name" name="name" required>
+                @error('name')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3 icon-input">
                 <i class="bi bi-envelope"></i>
                 <input type="email" class="form-control" placeholder="Email" id="email" name="email" required>
+                @error('email')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3 icon-input">
                 <i class="bi bi-lock"></i>
                 <input type="password" class="form-control" placeholder="Contraseña" id="password" name="password" required>
+                @error('password')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3 icon-input">
                 <i class="bi bi-lock"></i>
@@ -113,5 +122,84 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Validación en tiempo real -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const passwordConfirmationInput = document.getElementById('password_confirmation');
+
+            const nameError = document.createElement('div');
+            nameError.className = 'text-danger mt-1';
+            nameInput.parentElement.appendChild(nameError);
+
+            const emailError = document.createElement('div');
+            emailError.className = 'text-danger mt-1';
+            emailInput.parentElement.appendChild(emailError);
+
+            const passwordError = document.createElement('div');
+            passwordError.className = 'text-danger mt-1';
+            passwordInput.parentElement.appendChild(passwordError);
+
+            // Validación del nombre
+            nameInput.addEventListener('input', function () {
+                const name = nameInput.value;
+                if (!/^[A-Za-z\s]+$/.test(name)) {
+                    nameError.textContent = 'El nombre solo debe contener letras y espacios.';
+                } else {
+                    nameError.textContent = '';
+                }
+            });
+
+            // Validación del correo
+            emailInput.addEventListener('input', function () {
+                const email = emailInput.value;
+                if (!email.endsWith('.com')) {
+                    emailError.textContent = 'El correo debe terminar con .com.';
+                } else {
+                    emailError.textContent = '';
+                }
+            });
+
+            // Validación de la contraseña
+            passwordInput.addEventListener('input', function () {
+                const password = passwordInput.value;
+                if (password.length < 8) {
+                    passwordError.textContent = 'La contraseña debe tener al menos 8 caracteres.';
+                } else {
+                    passwordError.textContent = '';
+                }
+            });
+
+            // Validación antes de enviar el formulario
+            document.querySelector('form').addEventListener('submit', function (e) {
+                const name = nameInput.value;
+                const email = emailInput.value;
+                const password = passwordInput.value;
+                const passwordConfirmation = passwordConfirmationInput.value;
+
+                if (!/^[A-Za-z\s]+$/.test(name)) {
+                    e.preventDefault();
+                    nameError.textContent = 'El nombre solo debe contener letras y espacios.';
+                }
+
+                if (!email.endsWith('.com')) {
+                    e.preventDefault();
+                    emailError.textContent = 'El correo debe terminar con .com.';
+                }
+
+                if (password.length < 8) {
+                    e.preventDefault();
+                    passwordError.textContent = 'La contraseña debe tener al menos 8 caracteres.';
+                }
+
+                if (password !== passwordConfirmation) {
+                    e.preventDefault();
+                    passwordError.textContent = 'Las contraseñas no coinciden.';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
