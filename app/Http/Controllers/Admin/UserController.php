@@ -26,7 +26,7 @@ class UserController extends Controller
         }
 
         // Paginar los resultados
-        $users = $query->paginate(6);
+        $users = $query->paginate(10);
 
         // Pasar el término de búsqueda a la vista
         return view('admin.users.index', compact('users', 'search'));
@@ -108,28 +108,18 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado correctamente.');
     }
+
+
     public function search(Request $request)
 {
-    
-    $search = $request->input('search');
+    $searchTerm = $request->input('search');
+    $users = User::where('name', 'like', "%$searchTerm%")
+                ->orWhere('email', 'like', "%$searchTerm%")
+                ->paginate(10); // Paginar los resultados
 
-    $query = User::query();
-
-    // Aplicar filtro de búsqueda si hay un término
-    if ($search) {
-        $query->where('name', 'like', '%' . $search . '%')
-              ->orWhere('email', 'like', '%' . $search . '%');
-    }
-
-    $users = $query->paginate(6);
-
-    $usersTable = view('admin.users.partials.users_table', compact('users'))->render();
-    $pagination = $users->links('pagination::bootstrap-4')->toHtml();
-
-    // Devolver una respuesta JSON
     return response()->json([
-        'users' => $usersTable,
-        'pagination' => $pagination,
+        'users' => view('admin.users.partials.users_table', compact('users'))->render(),
+        'pagination' => $users->links('pagination::bootstrap-4')->render(),
     ]);
 }
 }

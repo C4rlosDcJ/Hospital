@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Panel de Administrador')</title>
+    <title>@yield('title')</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -155,52 +155,6 @@
     </style>
 </head>
 <body>
-    <!-- Barra lateral -->
-    <div class="sidebar">
-        <div class="logo">Hospital</div>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="{{ route('admin.dashboard')}}">
-                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.users.index') }}">
-                    <i class="bi bi-people me-2"></i>Usuarios
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('cita.index')}}">
-                    <i class="bi bi-calendar-check me-2"></i>Citas
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-file-earmark-text me-2"></i>Reportes
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <!-- Contenido principal -->
-    <div class="main-content">
-        <!-- Barra de navegación superior -->
-        <nav class="navbar">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Panel de Administrador</a>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
         <!-- Área de contenido -->
         <div class="container-fluid mt-4">
             @yield('content')

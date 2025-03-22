@@ -1,20 +1,16 @@
-@extends('layouts.plantillau')
+@extends('layouts.paciente')
 
 @section('title','Citas')
     
 @section('content')
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4" style="color: #0b0909;">Busca tu Cita</h2>
-    <p class="text-center mb-4" style="color: #0b0909;">(Por Codigo)</p>
+    {{-- <h2 class="text-center mb-4" style="color: #0b0909;">Busca tu Cita</h2>
+    <p class="text-center mb-4" style="color: #0b0909;">(Por Codigo)</p> --}}
 
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
-            <form class="d-flex me-auto" role="search">
-                <input name="buscarpor" class="form-control me-2 bg-secondary text-white border-0" 
-                    type="search" placeholder="Buscar" aria-label="Buscar" value="{{$buscarpor}}">
-                <button class="btn btn-outline-light" type="submit">Buscar</button>
-            </form>
+
     
             
             {{-- <a href="{{ route('graficas.index') }}">
@@ -39,10 +35,10 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($lista as $index => $listaa)
+            @foreach ($citas as $listaa)
                 <tr>
                     <!-- Ajustar el índice de acuerdo a la página actual -->
-                    <td>{{ ($lista->currentPage() - 1) * $lista->perPage() + $index + 1 }}</td>
+                    {{-- <td>{{ ($lista->currentPage() - 1) * $lista->perPage() + $index + 1 }}</td> --}}
                     <td>{{ $listaa->fecha }}</td>
                     <td>{{ $listaa->estatus }}</td>
                     <td>{{ $listaa->descripcion }}</td>

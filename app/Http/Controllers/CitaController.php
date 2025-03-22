@@ -10,22 +10,26 @@ class CitaController extends Controller
     // Método para mostrar la lista de citas
     public function index(Request $request)
     {
-        $buscarpor = $request->get('buscarpor');
 
+        $layout = auth()->user()->role === 'admin' ? 'layouts.admin' : 'layouts.doctor';
+
+        // Obtener el término de búsqueda
+        $search = $request->input('search');
+    
         // Consulta base
-        $query = Citas::orderBy('id_cita', 'desc');
-
+        $query = Citas::query();
+    
         // Aplicar filtro de búsqueda si hay un término
-        if ($buscarpor) {
-            $query->where('codigo', 'like', '%' . $buscarpor . '%')
-                  ->orWhere('descripcion', 'like', '%' . $buscarpor . '%')
-                  ->orWhere('estatus', 'like', '%' . $buscarpor . '%');
+        if ($search) {
+            $query->where('descripcion', 'like', '%' . $search . '%')
+                  ->orWhere('codigo', 'like', '%' . $search . '%');
         }
-
+    
         // Paginar los resultados
-        $lista = $query->paginate(5);
-
-        return view('citas.index', compact('lista', 'buscarpor'));
+        $citas = $query->paginate(10);
+    
+        // Pasar el término de búsqueda a la vista
+        return view('citas.index', compact('citas', 'search', 'layout'));
     }
 
     // Método para mostrar el formulario de creación de citas
@@ -81,33 +85,16 @@ class CitaController extends Controller
         return redirect()->route('citas.index');
     }
 
-    // Método para la búsqueda en tiempo real (AJAX)
     public function search(Request $request)
     {
-        // Obtener el término de búsqueda
-        $search = $request->input('search');
-
-        // Consulta base
-        $query = Citas::orderBy('id_cita', 'desc');
-
-        // Aplicar filtro de búsqueda si hay un término
-        if ($search) {
-            $query->where('codigo', 'like', '%' . $search . '%')
-                  ->orWhere('descripcion', 'like', '%' . $search . '%')
-                  ->orWhere('estatus', 'like', '%' . $search . '%');
-        }
-
-        // Paginar los resultados
-        $citas = $query->paginate(5);
-
-        // Renderizar la vista de la tabla y la paginación
-        $citasTable = view('citas.partials.citas_table', compact('citas'))->render();
-        $pagination = $citas->links('pagination::bootstrap-4')->toHtml();
-
-        // Devolver una respuesta JSON
+        $searchTerm = $request->input('search');
+        $citas = Cita::where('descripcion', 'like', "%$searchTerm%")
+                     ->orWhere('codigo', 'like', "%$searchTerm%")
+                     ->paginate(10); // Paginar los resultados
+    
         return response()->json([
-            'citas' => $citasTable,
-            'pagination' => $pagination,
+            'citas' => view('citas.partials.citas_table', compact('citas'))->render(),
+            'pagination' => $citas->links('pagination::bootstrap-4')->render(),
         ]);
     }
 }

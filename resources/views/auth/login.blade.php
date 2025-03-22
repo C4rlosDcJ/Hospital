@@ -89,7 +89,7 @@
         <div class="alert alert-danger">
             {{ $errors->first('email') }}
         </div>
-    @endif
+        @endif
         <form action="{{ route('login.store') }}" method="POST">
             @csrf
             <div class="mb-3 icon-input">

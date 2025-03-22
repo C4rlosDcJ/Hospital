@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Lista de Usuarios')
 
@@ -51,12 +51,16 @@
     </div>
     @endif
 
-    <!-- Formulario de búsqueda en tiempo real -->
+    <!-- Formulario de búsqueda -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
-            <div class="d-flex align-items-center gap-2">
-                <input type="text" id="search" class="form-control" placeholder="Buscar por nombre o correo...">
-            </div>
+            <form action="{{ route('admin.users.index') }}" method="GET" class="d-flex align-items-center gap-2">
+                <input type="text" name="search" class="form-control" placeholder="Buscar por nombre o correo..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                @if(request('search'))
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">Limpiar</a>
+                @endif
+            </form>
         </div>
     </div>
 
@@ -73,7 +77,7 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="users-table-body">
+                <tbody>
                     @foreach ($users as $user)
                     <tr>
                         <td>{{ $user->id }}</td>
@@ -101,62 +105,10 @@
             </table>
 
             <!-- Paginación -->
-            <div class="d-flex justify-content-center mt-4" id="pagination-links">
-                {{ $users->links('pagination::bootstrap-4') }}
+            <div class="d-flex justify-content-center mt-4">
+                {{ $users->appends(['search' => request('search')])->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>
 </div>
-
-<!-- Script para la búsqueda en tiempo real -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('search');
-    const usersTableBody = document.getElementById('users-table-body');
-    const paginationLinks = document.getElementById('pagination-links');
-
-    // Función para realizar la búsqueda en tiempo real
-    const fetchUsers = (url) => {
-        fetch(url, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest', // Indicar que es una solicitud AJAX
-            },
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Actualizar la tabla con los resultados
-            usersTableBody.innerHTML = data.users;
-
-            // Actualizar la paginación
-            paginationLinks.innerHTML = data.pagination;
-
-            // Reasignar los event listeners a los nuevos enlaces de paginación
-            attachPaginationListeners();
-        })
-        .catch(error => console.error('Error:', error));
-    };
-
-    // Función para manejar la búsqueda en tiempo real
-    searchInput.addEventListener('input', function () {
-        const searchTerm = searchInput.value.trim();
-        const url = `{{ route('admin.users.search') }}?search=${searchTerm}`;
-        fetchUsers(url);
-    });
-
-    // Función para manejar la paginación
-    const attachPaginationListeners = () => {
-        const paginationAnchors = paginationLinks.querySelectorAll('a.page-link');
-        paginationAnchors.forEach(anchor => {
-            anchor.addEventListener('click', function (event) {
-                event.preventDefault(); // Evitar que el navegador siga el enlace
-                const url = this.getAttribute('href'); // Obtener la URL del enlace
-                fetchUsers(url); // Realizar la solicitud AJAX
-            });
-        });
-    };
-
-    // Asignar los event listeners a los enlaces de paginación iniciales
-    attachPaginationListeners();
-});
-</script>
 @endsection

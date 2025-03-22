@@ -50,7 +50,7 @@
                                 <button type="submit" class="btn btn-success">
                                     <i class="bi bi-save"></i> Actualizar 
                                 </button>
-                                <a href="{{ route('cita.index') }}" class="btn btn-primary">
+                                <a href="{{ route('citas.index') }}" class="btn btn-primary">
                                     <i class="bi bi-arrow-left"></i> Regresar
                                 </a>
                             </div>

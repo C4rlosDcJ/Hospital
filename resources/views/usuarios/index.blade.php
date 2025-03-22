@@ -1,4 +1,4 @@
-@extends('layouts.plantilla')
+@extends('layouts.admin')
 
 @section('title','Usuarios')
 

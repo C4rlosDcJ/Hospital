@@ -40,7 +40,7 @@
                             </table>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <a href="{{ route('cita.index') }}" class="btn btn-outline-primary">
+                            <a href="{{ route('citas.index') }}" class="btn btn-outline-primary">
                                 <i class="bi bi-arrow-left-circle"></i> Regresar
                             </a>
 

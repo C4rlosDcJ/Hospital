@@ -104,15 +104,15 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('cita.index')}}">
+                <a class="nav-link" href="{{ route('citas.index')}}">
                     <i class="bi bi-calendar-check me-2"></i>Citas
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="bi bi-file-earmark-text me-2"></i>Reportes
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 

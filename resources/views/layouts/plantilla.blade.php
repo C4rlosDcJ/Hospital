@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar">
             <ul>
-                <li><a href="{{route('cita.index')}}">Citas</a></li>
+                <li><a href="{{route('citas.index')}}">Citas</a></li>
                 {{-- <li><a href="{{route('users.index')}}">Usuarios</a></li> --}}
                 <li><a href="{{route('login.index')}}">Cerrar Sesion</a></li>
             </ul>
