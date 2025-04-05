@@ -1,15 +1,19 @@
 <?php
 
-use App\Http\Controllers\CitaController;
+use App\Http\Controllers\CitasController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Doctor\DoctorController;
-use App\Http\Controllers\Paciente\PacienteController;
+// use App\Http\Controllers\Paciente\PacienteController;
 use App\Http\Controllers\UserImportController;
 use App\Http\Controllers\UserExportController;
+use App\Http\Controllers\OximetroController;
+use App\Http\Controllers\OperacionController;
+use App\Http\Controllers\PacienteController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -77,19 +81,25 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 
+
+    // Oximetro
+    Route::get('/oximetro', [OximetroController::class, 'index'])->name('oximetro');
+
+    Route::get('citas/search', [CitasController::class, 'search'])->name('citas.search');
+    Route::resource('citas', CitasController::class);
+
+    Route::resource('operaciones', OperacionController::class);
+    
+    // Route::resource('pacientes', PacienteController::class);
+
+
 });
 
-// Acceso para admin o doctor
-Route::middleware(['auth', 'role:admin|doctor'])->group(function () {
-    // Rutas Citas Medicas
-    Route::get('citas', [CitaController::class, 'index'])->name('citas.index');
-    Route::get('citas/create', [CitaController::class, 'create'])->name('citas.create');
-    Route::post('citas', [CitaController::class, 'store'])->name('citas.store');
-    Route::get('citas/{mostrar}', [CitaController::class, 'show'])->name('citas.show');
-    Route::get('citas/{editar}/edit', [CitaController::class, 'edit'])->name('citas.edit');
-    Route::put('citas/{editar}', [CitaController::class, 'update'])->name('citas.update');
-    Route::delete('citas/{eliminar}', [CitaController::class, 'destroy'])->name('citas.destroy');
-    Route::get('/citas/search', [CitaController::class, 'search'])->name('citas.search');
+// Acceso para doctor
+Route::middleware(['auth', 'role:doctor'])->group(function () {
+
+    // Oximetro
+    // Route::get('/oximetro', [OximetroController::class, 'index'])->name('oximetro');
 });
 
 // Route::group(['middleware' => ['auth', 'role:admin|doctor']], function () {
@@ -109,7 +119,23 @@ Route::middleware(['auth', 'role:admin|doctor'])->group(function () {
 Route::middleware(['auth', 'role:paciente'])->group(function () {
     // Ruta principal del paciente
     Route::get('paciente', [PacienteController::class, 'index'])->name('paciente.index');
+
 });
 
+// Route::get('/oximetro', [OximetroController::class, 'index'])->name('oximetro');
+Route::get('/oximetro', [OximetroController::class, 'index'])->name('oximetro.index');  
+
+Route::resource('pacientes', PacienteController::class);
+
+
+        // // Rutas Citas Medicas
+        // Route::get('citas', [CitaController::class, 'index'])->name('citas.index');
+        // Route::get('citas/create', [CitaController::class, 'create'])->name('citas.create');
+        // Route::post('citas', [CitaController::class, 'store'])->name('citas.store');
+        // Route::get('citas/{mostrar}', [CitaController::class, 'show'])->name('citas.show');
+        // Route::get('citas/{editar}/edit', [CitaController::class, 'edit'])->name('citas.edit');
+        // Route::put('citas/{editar}', [CitaController::class, 'update'])->name('citas.update');
+        // Route::delete('citas/{eliminar}', [CitaController::class, 'destroy'])->name('citas.destroy');
+        // Route::get('/citas/search', [CitaController::class, 'search'])->name('citas.search');
 
 

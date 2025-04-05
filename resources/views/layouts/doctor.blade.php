@@ -9,6 +9,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Estilos personalizados -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -104,8 +105,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('citas.index')}}">
+                <a class="nav-link" href="{{ route('citas')}}">
                     <i class="bi bi-calendar-check me-2"></i>Citas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('oximetro')}}">
+                    <i class="bi bi-file-earmark-text me-2"></i>Oximetro
                 </a>
             </li>
             {{-- <li class="nav-item">

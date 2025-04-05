@@ -30,5 +30,7 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'python_api' => [
+        'url' => env('PYTHON_API_URL', 'http://127.0.0.1:5000') // Usa un valor por defecto si no está definido en el .env
+    ],
 ];
