@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="row">
+    <!-- Card de Usuarios Registrados -->
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">Usuarios Registrados</div>
@@ -13,6 +14,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Card de Citas Programadas -->
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">Citas Programadas</div>
@@ -22,6 +25,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Card de Ingresos Mensuales -->
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">Ingresos Mensuales</div>
@@ -32,4 +37,52 @@
         </div>
     </div>
 </div>
+
+<!-- Gráfico de Citas Programadas -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">Citas Programadas</div>
+            <div class="card-body">
+                <canvas id="appointmentsChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Datos de las citas recibidos desde el controlador
+    const citasData = @json($data); // Pasamos los datos de citas desde Laravel al frontend
+
+    // Preprocesamos los datos para el gráfico
+    const citasLabels = citasData.map(cita => cita.fecha_hora); // Usamos la fecha de la cita como etiquetas
+    const citasCount = citasData.map(cita => cita.id); // Usamos el ID de la cita para contar las citas (puedes modificarlo)
+
+    // Configuración del gráfico
+    new Chart(document.getElementById('appointmentsChart'), {
+        type: 'bar',
+        data: {
+            labels: citasLabels, // Fechas de las citas
+            datasets: [{
+                label: 'Citas Programadas',
+                data: citasCount, // Contador de citas (ajustar según necesidad)
+                backgroundColor: '#36b9cc',
+                borderColor: '#36b9cc',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+@endpush

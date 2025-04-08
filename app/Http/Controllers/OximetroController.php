@@ -9,8 +9,11 @@ class OximetroController extends Controller
     public function index()
     {
         try {
-            $response = Http::get('http://192.168.0.20:5000/data/all'); // Cambia la URL por la de tu API
-
+            // $response = Http::get('https://18.212.80.15/data/all'); // Cambia la URL por la de tu API
+            $response = Http::withOptions([
+                'verify' => false, // ❗Desactiva verificación SSL
+            ])->get('https://18.212.80.15/data/all');
+            
             if ($response->successful()) {
                 $json = $response->json();
 

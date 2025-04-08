@@ -13,6 +13,7 @@ use App\Http\Controllers\UserExportController;
 use App\Http\Controllers\OximetroController;
 use App\Http\Controllers\OperacionController;
 use App\Http\Controllers\PacienteController;
+use App\Http\Controllers\Admin\UsersController;
 
 
 /*
@@ -91,6 +92,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('operaciones', OperacionController::class);
     
     // Route::resource('pacientes', PacienteController::class);
+    Route::resource('pacientes', PacienteController::class);
+
+    // Route::resource('users', UsersController::class);
+
+    Route::resource('users', UsersController::class);
+Route::get('/users/statistics', [UsersController::class, 'statistics'])->name('users.statistics');
+Route::get('/users/export', [UsersController::class, 'export'])->name('users.export');
+    
 
 
 });
@@ -125,7 +134,7 @@ Route::middleware(['auth', 'role:paciente'])->group(function () {
 // Route::get('/oximetro', [OximetroController::class, 'index'])->name('oximetro');
 Route::get('/oximetro', [OximetroController::class, 'index'])->name('oximetro.index');  
 
-Route::resource('pacientes', PacienteController::class);
+
 
 
         // // Rutas Citas Medicas
@@ -137,5 +146,7 @@ Route::resource('pacientes', PacienteController::class);
         // Route::put('citas/{editar}', [CitaController::class, 'update'])->name('citas.update');
         // Route::delete('citas/{eliminar}', [CitaController::class, 'destroy'])->name('citas.destroy');
         // Route::get('/citas/search', [CitaController::class, 'search'])->name('citas.search');
+
+
 
 

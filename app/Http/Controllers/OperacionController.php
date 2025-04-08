@@ -12,7 +12,8 @@ class OperacionController extends Controller
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'http://127.0.0.1:5000/', // URL base de tu API en Flask
+            'base_uri' => 'https://18.212.80.15',
+            'verify' => false,
         ]);
     }
 

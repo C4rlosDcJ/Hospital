@@ -255,6 +255,11 @@
                     <i class="fas fa-user-injured"></i> Pacientes
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('users.index') }}">
+                    <i class="fas fa-users-cog"></i> Users
+                </a>
+            </li>
         </ul>
     </div>
 

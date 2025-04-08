@@ -105,12 +105,12 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('citas')}}">
+                <a class="nav-link" href="{{ route('citas.index')}}">
                     <i class="bi bi-calendar-check me-2"></i>Citas
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('oximetro')}}">
+                <a class="nav-link" href="{{ route('oximetro.index')}}">
                     <i class="bi bi-file-earmark-text me-2"></i>Oximetro
                 </a>
             </li>

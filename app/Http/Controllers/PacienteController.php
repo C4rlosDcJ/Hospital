@@ -12,8 +12,11 @@ class PacienteController extends Controller
 
     public function __construct()
     {
-        $this->client = new Client();
-        $this->apiUrl = env('API_URL', 'http://127.0.0.1:5000');
+        $this->client = new Client([
+            'verify' => false
+        ]);
+        $this->apiUrl = env('API_URL', 'https://18.212.80.15');
+        
     }
 
     public function index()
