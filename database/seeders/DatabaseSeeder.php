@@ -9,17 +9,19 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // Crear los roles
+        // Crear roles
         $adminRole = Role::create(['name' => 'admin']);
         $doctorRole = Role::create(['name' => 'doctor']);
         $pacienteRole = Role::create(['name' => 'paciente']);
-
-        // Crear un usuario y asignarle el rol de 'Administrador'
-        User::create([
+    
+        // Crear usuario
+        $user = User::create([
             'name' => 'Admin',
             'email' => 'admin@hospital.com',
-            'password' => Hash::make('1234567890.'),  // Contraseña cifrada
-            'role_id' => $adminRole->id,  // Asignar el rol
+            'password' => bcrypt('1234567890.')
         ]);
+    
+        // Asignar roles al usuario (relación muchos a muchos)
+        $user->roles()->attach($adminRole->id);
     }
 }
