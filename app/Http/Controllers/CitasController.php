@@ -103,4 +103,9 @@ class CitasController extends Controller
 
         return back()->with('error', 'Error al eliminar la cita');
     }
+
+    public function servo()
+    {
+        return view('servos.control');
+    }
 }

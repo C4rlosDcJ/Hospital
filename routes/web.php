@@ -16,6 +16,8 @@ use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\Admin\UsersController;
 
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Rutas Públicas (Accesibles sin autenticación)
@@ -149,4 +151,15 @@ Route::get('/oximetro', [OximetroController::class, 'index'])->name('oximetro.in
 
 
 
+        // Route::post('servos', [CitasController::class, 'servo'])->name('servos.view');
 
+        // Ruta para la vista de control (GET)
+Route::get('/control', function () {
+    return view('servos.control');
+})->name('control');
+
+// Ruta para enviar comandos (POST)
+Route::post('/servos', function (Request $request) {
+    // Aquí iría la lógica para comunicarse con la API Python
+    return response()->json(['status' => 'success']);
+})->name('servos.command');
