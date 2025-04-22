@@ -111,6 +111,8 @@ Route::middleware(['auth', 'role:doctor'])->group(function () {
 
     // Oximetro
     // Route::get('/oximetro', [OximetroController::class, 'index'])->name('oximetro');
+    Route::get('citas/search', [CitasController::class, 'search'])->name('citas.search');
+    Route::resource('citas', CitasController::class);
 });
 
 // Route::group(['middleware' => ['auth', 'role:admin|doctor']], function () {

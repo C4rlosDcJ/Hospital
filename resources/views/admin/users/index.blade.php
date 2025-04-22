@@ -4,7 +4,6 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1>Lista de Usuarios</h1>
 
     <!-- Contenedor flexible para los botones -->
     <div class="d-flex align-items-center gap-3 mb-4">

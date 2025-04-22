@@ -23,7 +23,7 @@ class AdminController extends Controller
             $client = new Client();
 
             // Hacer la solicitud GET a la API Flask, deshabilitando la verificación SSL
-            $response = $client->get('https://18.212.80.15/citas', [
+            $response = $client->get('http://192.168.0.23:5000/citas', [
                 'verify' => false // Deshabilita la verificación SSL
             ]);
 

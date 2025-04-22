@@ -38,18 +38,6 @@
     </div>
 </div>
 
-<!-- Gráfico de Citas Programadas -->
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">Citas Programadas</div>
-            <div class="card-body">
-                <canvas id="appointmentsChart"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-
 @endsection
 
 @push('scripts')

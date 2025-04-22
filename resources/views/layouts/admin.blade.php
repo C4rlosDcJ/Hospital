@@ -52,7 +52,7 @@
             font-size: 1.8rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1rem;
             padding: 1rem;
             border-bottom: 2px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
@@ -225,6 +225,7 @@
     <div class="sidebar">
         <div class="logo">
             <i class="fas fa-hospital"></i> MedCenter
+            CERM
         </div>
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -259,7 +260,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('control')}}">
-                    <i class="fas fa-user-injured"></i> Mover servos
+                    <i class="fas fa-user-injured"></i> Inyectar paciente
                 </a>
             </li>
             <li class="nav-item">
@@ -281,8 +282,7 @@
                 
                 <div class="user-menu ms-auto">
                     <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <img src="https://via.placeholder.com/35" class="user-avatar" alt="Avatar">
+                        <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">   
                             <span>Administrador</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">

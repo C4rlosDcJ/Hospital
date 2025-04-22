@@ -97,7 +97,7 @@
 <body>
     <!-- Barra lateral -->
     <div class="sidebar">
-        <div class="logo">Hospital Laravel</div>
+        <div class="logo">MedCenterCERM</div>
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link active" href="{{route('paciente.dashboard')}}">

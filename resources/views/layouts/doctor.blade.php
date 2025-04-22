@@ -97,7 +97,7 @@
 <body>
     <!-- Barra lateral -->
     <div class="sidebar">
-        <div class="logo">Hospital Laravel</div>
+        <div class="logo">MedCenterCERM</div>
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link active" href="#">
@@ -106,7 +106,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('citas.index')}}">
-                    <i class="bi bi-calendar-check me-2"></i>Citas
+                    <i class="fas fa-calendar-check"></i> Citas
                 </a>
             </li>
             <li class="nav-item">
